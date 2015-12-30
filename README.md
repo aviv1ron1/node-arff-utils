@@ -15,9 +15,11 @@ arff.addData([1,"s","a","2001-04-03 12:12:12"]);
 arff.writeToStream(process.stdout);
 ```
 # ctor
-```new Arff.ArffWriter(relation[, mode][, options])```
+```javascript
+new Arff.ArffWriter(relation[, mode][, options])
+```
 * `relation` relation name
-* `mode` [optional] if entering data manually with addData one must state the type of data that will be added. The type can be of [`Arff.MODE_OBJECT`, `Arff.MODE_ARRAY`, `Arff.MODE_CSV`]. default value is MODE_ARRAY. see below in [examples](#examples) for usage of each one.
+* `mode` [optional] if entering data manually with addData one must state the type of data that will be added. The type can be of [`Arff.MODE_OBJECT`, `Arff.MODE_ARRAY`, `Arff.MODE_CSV`]. default value is `MODE_ARRAY`. see below in [examples](#examples) for usage of each one.
 * `options` [optional]
   * `reduce` an object mapping nominal values that should be transformed to a different value. For example `{ "false":"f" }` will transform all the nominal values "false" to "f" to instead
   * `skipRedundantNominal` boolean whether to skip nominal attributes with only a single value. If true these will be omitted from the final output. default is false.
@@ -33,15 +35,21 @@ arff.addNumericAttribute(name);
 Add a new numeric attribute. This attribute can be of real or integer - it doesnt matter.
 
 # addStringAttribute
-```arff.addStringAttribute(name);```
+```javascript
+arff.addStringAttribute(name);
+```
 Add a new string attribute.
 
 # addNominalAttribute
-```arff.addNominalAttribute(name, values);```
+```javascript
+arff.addNominalAttribute(name, values);
+```
 Adds a new nominal attribute. Receives an array of string values for this attribute as the second parameter.
 
 # addDateAttribute
-```arff.addDateAttribute(name[, format]);```
+```javascript
+arff.addDateAttribute(name[, format]);
+```
 Adds a new date attribute. Receives an optional second parameter of type string as the date format as stated by the [arff specs](https://weka.wikispaces.com/ARFF).
 
 # addData(data)
@@ -66,7 +74,7 @@ Given the data in csv format `parseCsv` will iterate thru the csv and output an 
   * `autoNominals` - boolean. If true nominal values will be automatically determined from the set of available values in the data. default is false.
 
 # examples
-```
+```javascript
 var arff = new Arff.ArffWriter("myarff", Arff.MODE_OBJECT);
 arff.addNumericAttribute("num");
 arff.addStringAttribute("str");
@@ -91,7 +99,7 @@ arff.addData({
 
 arff.writeToStream(process.stdout);
 ```
-```
+```javascript
 var arff = new Arff.ArffWriter("myarff", Arff.MODE_ARRAY);
 arff.addNumericAttribute("num");
 arff.addStringAttribute("str");
@@ -104,7 +112,7 @@ arff.addData([2, "s s", "c d", "2009-04-12 12:12:12", "2001-04-03 12:12:12"]);
 
 arff.writeToStream(process.stdout);
 ```
-```
+```javascript
 var arff = new Arff.ArffWriter("myarff", Arff.MODE_CSV, {     
 	reduce: {
         "c d": "c" 
@@ -121,7 +129,7 @@ arff.addData('2,"s s","c d","2011-04-03 12:12:12","2001-04-03 12:12:12"');
 
 arff.writeToStream(process.stdout);
 ```
-```
+```javascript
 var arff = new Arff.ArffWriter("parsearf");
 arff.addNumericAttribute("num");
 arff.addStringAttribute("str");
