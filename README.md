@@ -17,7 +17,7 @@ arff.writeToStream(process.stdout);
 # ctor
 ```new Arff.ArffWriter(relation[, mode][, options])```
 * `relation` relation name
-* `mode` [optional] if entering data manually with addData one must state the type of data that will be added. The type can be of [arff.MODE_OBJECT, arff.MODE_ARRAY, arff.MODE_CSV]. default value is MODE_ARRAY. see below in [examples](#examples) for usage of each one.
+* `mode` [optional] if entering data manually with addData one must state the type of data that will be added. The type can be of [`arff.MODE_OBJECT`, `arff.MODE_ARRAY`, `arff.MODE_CSV`]. default value is MODE_ARRAY. see below in [examples](#examples) for usage of each one.
 * `options` [optional]
   * `reduce` an object mapping nominal values that should be transformed to a different value. For example `{ "false":"f" }` will transform all the nominal values "false" to "f" to instead
   * `skipRedundantNominal` boolean whether to skip nominal attributes with only a single value. If true these will be omitted from the final output. default is false.
