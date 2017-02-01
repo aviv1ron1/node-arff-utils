@@ -51,9 +51,10 @@ var isDefined = function(obj) {
 }
 
 var MODES = {
-    CSV: 0,
-    ARRAY: 1,
-    OBJECT: 2
+    ARRAY: 0,
+    OBJECT: 1,
+    CSV: 2,
+    STREAM: 4
 }
 
 function writer(sw) {
@@ -101,10 +102,11 @@ function arff(relation, mode, options) {
     }
 
     if (isDefined(mode)) {
-        if (isDefined(MODES[mode])) {
-            this.mode = MODES[mode];
-        } else {
-            throw new Error("illegal mode value");
+        var inputMode = mode & 3;
+        var streamMode = mode & 4;
+        this.mode = inputMode;
+        if (streamMode) {
+            this.streamMode = true;
         }
     }
     this.setMode(this.mode);
@@ -267,7 +269,11 @@ arff.prototype.addData = function(data) {
         this.headerMode = false;
         this.scanForRedundantNominals();
     }
-    this.data.push(data);
+    if (isStream) {
+
+    } else {
+        this.data.push(data);
+    }
 };
 
 function escape(str, ch, rgx) {
@@ -410,7 +416,8 @@ arff.prototype.parseCsv = function(input, output, options) {
 
 module.exports = {
     ArffWriter: arff,
-    MODE_OBJECT: "OBJECT",
-    MODE_ARRAY: "ARRAY",
-    MODE_CSV: "CSV"
+    MODE_ARRAY: 0,
+    MODE_OBJECT: 1,
+    MODE_CSV: 2,
+    MODE_STREAM: 4
 };
