@@ -1,8 +1,11 @@
+"use strict";
+
 var _ = require("underscore");
 var util = require('util');
 var fs = require('fs');
 var Csvly = require('csvly');
 var Readable = require('stream').Readable;
+const EventEmitter = require('events').EventEmitter;
 
 const ATTRIBUTE = "@ATTRIBUTE";
 const DATA = "@DATA";
@@ -127,13 +130,17 @@ function arff(relation, mode, options) {
             this.skipRedundantNominal = options.skipRedundantNominal;
         }
     }
+    EventEmitter.call(this);
 }
+
+util.inherits(arff, EventEmitter);
 
 arff.prototype.setMode = function(mode) {
     var self = this;
     var handle = function(d, getLength, getArr, getValue) {
         if (getLength(d) != self.attributesArr.length) {
-            throw new Error("incompatible data size unequal to the number of attributes");
+            //throw new Error("incompatible data size unequal to the number of attributes");
+            self.emit('error', { message: "incompatible data size unequal to the number of attributes", data: d });
         }
         self.writer.writeLine.apply(self.writer, _.map(getArr(d), function(val, index) {
             if (isDefined(self.attributesArr[index])) {
@@ -351,6 +358,7 @@ arff.prototype.parseCsv = function(input, output, options) {
     var count = undefined;
     var autoNominals = false;
     this.writer = new writer(output);
+    var reader;
 
     if (isDefined(options)) {
         if (isDefined(options.start)) {
