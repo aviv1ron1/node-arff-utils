@@ -141,6 +141,7 @@ arff.prototype.setMode = function(mode) {
         if (getLength(d) != self.attributesArr.length) {
             //throw new Error("incompatible data size unequal to the number of attributes");
             self.emit('error', { message: "incompatible data size unequal to the number of attributes", data: d });
+            return;
         }
         self.writer.writeLine.apply(self.writer, _.map(getArr(d), function(val, index) {
             if (isDefined(self.attributesArr[index])) {
