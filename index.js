@@ -150,14 +150,18 @@ arff.prototype.setMode = function(mode) {
                     ch = "";
                 }
                 var value = getValue(d, val, index);
-                if (isDefined(self.reduce) && isDefined(self.reduce[value])) {
-                    value = self.reduce[value];
-                }
-                switch (self.attributesArr[index].data.type) {
-                    case dataTypes.DATE:
-                        return escape(value, '"', /./) + ch;
-                    default:
-                        return escape(value) + ch;
+                if (util.isNullOrUndefined(value)) {
+                    return "?" + ch;
+                } else {
+                    if (isDefined(self.reduce) && isDefined(self.reduce[value])) {
+                        value = self.reduce[value];
+                    }
+                    switch (self.attributesArr[index].data.type) {
+                        case dataTypes.DATE:
+                            return escape(value, '"', /./) + ch;
+                        default:
+                            return escape(value) + ch;
+                    }
                 }
             }
         }));
