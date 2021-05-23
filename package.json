@@ -11,8 +11,8 @@
         "email": "aviv1ron1@gmail.com"
     },
     "dependencies": {
-        "underscore": "1.8",
-        "csvly": "*"
+        "csvly": "*",
+        "underscore": "^1.13.1"
     },
     "keywords": [
         "arff",
